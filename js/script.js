@@ -91,14 +91,3 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 });
-
-// --- Google Analytics (GA4) ---
-const gaScript = document.createElement('script');
-gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-K1VSHGSLYT";
-gaScript.async = true;
-document.head.appendChild(gaScript);
-
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-K1VSHGSLYT');
