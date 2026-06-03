@@ -188,6 +188,11 @@
             </div>
             
             <form id="newsletterForm" class="space-y-3">
+  
+              <div style="display:none;" aria-hidden="true">
+                <input type="text" name="website" id="honeypotWebsite" tabindex="-1" autocomplete="off">
+              </div>
+            
               <div class="relative">
                 <input type="email" id="newsletterEmailInput" name="email" placeholder="メールアドレスを入力" required
                   class="w-full bg-slate-900/80 border border-slate-600 rounded-full px-5 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors">
@@ -195,76 +200,77 @@
               <button type="submit" id="newsletterSubmitBtn" class="w-full px-6 py-3.5 text-sm font-bold tracking-widest uppercase text-white bg-red-600 hover:bg-red-700 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer">
                 <span>登録する</span><i class="ri-arrow-right-line"></i>
               </button>
+              
+              <p id="formMessage" class="text-sm mt-2 hidden"></p>
             </form>
+            
+            <script>
+            document.getElementById('newsletterForm').addEventListener('submit', async function(e) {
+              // 画面の遷移（リロード）を防ぐ
+              e.preventDefault();
+            
+              const form = e.target;
+              const submitBtn = document.getElementById('newsletterSubmitBtn');
+              const messageArea = document.getElementById('formMessage');
+              const emailInput = document.getElementById('newsletterEmailInput').value;
+              const honeypot = document.getElementById('honeypotWebsite').value;
+            
+              // ★ここに Step 3 でコピーしたGASのウェブアプリURLを貼り付けます★
+              const gasUrl = 'https://script.google.com/macros/s/AKfycby_bnx4sAvZDne26ic9dle5jx2U4hV_ss2RWi9QRDowrqH66iivfhXVfhEVO5guCWNu/exec';
+            
+              // 送信中のボタンの見た目を変更
+              const originalBtnContent = submitBtn.innerHTML;
+              submitBtn.innerHTML = '<span>送信中...</span>';
+              submitBtn.disabled = true;
+              submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+              
+              messageArea.classList.add('hidden');
+            
+              try {
+                // 送信するデータを準備
+                const formData = new URLSearchParams();
+                formData.append('email', emailInput);
+                formData.append('website', honeypot); // 隠し項目のデータも一緒に送る
+            
+                // GASへPOSTリクエストを送信
+                const response = await fetch(gasUrl, {
+                  method: 'POST',
+                  body: formData,
+                  headers: {
+                     'Content-Type': 'application/x-www-form-urlencoded',
+                  }
+                });
+            
+                const result = await response.json();
+            
+                if (result.status === 'success') {
+                  // 成功時の処理
+                  messageArea.textContent = '登録が完了しました。ありがとうございます！';
+                  messageArea.className = 'text-sm mt-2 text-green-400';
+                  form.reset(); // フォームを空にする
+                } else {
+                  // 失敗時の処理
+                  messageArea.textContent = 'エラーが発生しました。正しいメールアドレスかご確認ください。';
+                  messageArea.className = 'text-sm mt-2 text-red-400';
+                }
+              } catch (error) {
+                console.error('Error:', error);
+                messageArea.textContent = '通信エラーが発生しました。時間を置いて再度お試しください。';
+                messageArea.className = 'text-sm mt-2 text-red-400';
+              } finally {
+                // ボタンの見た目を元に戻す
+                submitBtn.innerHTML = originalBtnContent;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+              }
+            });
+            </script>
             
             <div id="newsletterResponseMessage" class="hidden text-xs mt-3 text-center md:text-left font-medium"></div>
           </div>
 
         </div>
       </div>
-
-      <script src="https://www.google.com/recaptcha/api.js?render=6LdVFQotAAAAAPFGxEJgT4sa4lbx-pDvYcJyjSf4"></script>
-      <script>
-        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          // 固有のIDで要素を取得（HTML側と一致しました）
-          const emailInput = document.getElementById('newsletterEmailInput');
-          const submitBtn = document.getElementById('newsletterSubmitBtn');
-          const messageDiv = document.getElementById('newsletterResponseMessage');
-          
-          // 連打・二重送信防止モードON
-          submitBtn.disabled = true;
-          submitBtn.style.opacity = '0.7';
-          const originalBtnText = submitBtn.innerHTML;
-          submitBtn.innerHTML = '<span>送信中...</span>';
-          
-          // メッセージのリセット
-          messageDiv.classList.add('hidden');
-        
-          // reCAPTCHA設定
-          const siteKey = '6LdVFQotAAAAAPFGxEJgT4sa4lbx-pDvYcJyjSf4'; 
-          const gasUrl = 'https://script.google.com/macros/s/AKfycbyDLV2aFFUqeuN8Cmi21Tldot_08uLIIckcpJAPOkrPxDPVutLMAOnaZkN2lfXHzP4d/exec';
-          
-          grecaptcha.ready(function() {
-            grecaptcha.execute(siteKey, { action: 'submit_newsletter' }).then(function(token) {
-              
-              fetch(gasUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                  'email': emailInput.value,
-                  'recaptchaToken': token
-                })
-              })
-              .then(() => {
-                // 成功時
-                messageDiv.innerText = '正常に登録されました。ありがとうございます！';
-                messageDiv.className = 'text-xs mt-3 text-center md:text-left font-medium text-green-400';
-                messageDiv.classList.remove('hidden');
-                emailInput.value = ''; // 入力欄をクリア
-              })
-              .catch(error => {
-                // エラー時
-                messageDiv.innerText = 'エラーが発生しました。もう一度お試しください。';
-                messageDiv.className = 'text-xs mt-3 text-center md:text-left font-medium text-red-400';
-                messageDiv.classList.remove('hidden');
-                console.error('Error:', error);
-              })
-              .finally(() => {
-                // ボタンを完全に元の状態に戻す
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                submitBtn.innerHTML = originalBtnText;
-              });
-        
-            });
-          });
-        });
-        </script>
 
       <div class="mt-16 text-left max-w-5xl mx-auto opacity-80">
         <h4 class="text-center font-bold text-slate-400 mb-8 tracking-widest uppercase text-sm">エントリー受付開始後の流れ</h4>
