@@ -197,7 +197,7 @@
               </button>
             </form>
             
-            <div id="responseMessage" class="hidden text-xs mt-3 text-center md:text-left font-medium"></div>
+            <div id="newsletterResponseMessage" class="hidden text-xs mt-3 text-center md:text-left font-medium"></div>
           </div>
 
         </div>
@@ -207,7 +207,7 @@
         document.getElementById('newsletterForm').addEventListener('submit', function(e) {
           e.preventDefault();
           
-          // 固有のIDで要素を取得
+          // 固有のIDで要素を取得（HTML側と一致しました）
           const emailInput = document.getElementById('newsletterEmailInput');
           const submitBtn = document.getElementById('newsletterSubmitBtn');
           const messageDiv = document.getElementById('newsletterResponseMessage');
