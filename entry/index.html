@@ -189,10 +189,10 @@
             
             <form id="newsletterForm" class="space-y-3">
               <div class="relative">
-                <input type="email" id="emailInput" name="email" placeholder="メールアドレスを入力" required
+                <input type="email" id="newsletterEmailInput" name="email" placeholder="メールアドレスを入力" required
                   class="w-full bg-slate-900/80 border border-slate-600 rounded-full px-5 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors">
               </div>
-              <button type="submit" id="submitBtn" class="w-full px-6 py-3.5 text-sm font-bold tracking-widest uppercase text-white bg-red-600 hover:bg-red-700 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer">
+              <button type="submit" id="newsletterSubmitBtn" class="w-full px-6 py-3.5 text-sm font-bold tracking-widest uppercase text-white bg-red-600 hover:bg-red-700 rounded-full transition-colors flex items-center justify-center gap-2 cursor-pointer">
                 <span>登録する</span><i class="ri-arrow-right-line"></i>
               </button>
             </form>
@@ -207,9 +207,10 @@
         document.getElementById('newsletterForm').addEventListener('submit', function(e) {
           e.preventDefault();
           
-          const emailInput = document.getElementById('emailInput');
-          const submitBtn = document.getElementById('submitBtn');
-          const messageDiv = document.getElementById('responseMessage');
+          // 固有のIDで要素を取得
+          const emailInput = document.getElementById('newsletterEmailInput');
+          const submitBtn = document.getElementById('newsletterSubmitBtn');
+          const messageDiv = document.getElementById('newsletterResponseMessage');
           
           // 連打・二重送信防止モードON
           submitBtn.disabled = true;
@@ -220,11 +221,10 @@
           // メッセージのリセット
           messageDiv.classList.add('hidden');
         
-          // ★重要：取得済みの「サイトキー」に書き換えてください（お問合せフォームと同じものでOK）
+          // reCAPTCHA設定
           const siteKey = '6LdVFQotAAAAAPFGxEJgT4sa4lbx-pDvYcJyjSf4'; 
           const gasUrl = 'https://script.google.com/macros/s/AKfycbyDLV2aFFUqeuN8Cmi21Tldot_08uLIIckcpJAPOkrPxDPVutLMAOnaZkN2lfXHzP4d/exec';
           
-          // reCAPTCHAを実行してトークンを取得してからGASへ送る
           grecaptcha.ready(function() {
             grecaptcha.execute(siteKey, { action: 'submit_newsletter' }).then(function(token) {
               
@@ -236,22 +236,25 @@
                 },
                 body: new URLSearchParams({
                   'email': emailInput.value,
-                  'recaptchaToken': token // トークンを一緒におくる
+                  'recaptchaToken': token
                 })
               })
               .then(() => {
+                // 成功時
                 messageDiv.innerText = '正常に登録されました。ありがとうございます！';
                 messageDiv.className = 'text-xs mt-3 text-center md:text-left font-medium text-green-400';
                 messageDiv.classList.remove('hidden');
-                emailInput.value = ''; 
+                emailInput.value = ''; // 入力欄をクリア
               })
               .catch(error => {
+                // エラー時
                 messageDiv.innerText = 'エラーが発生しました。もう一度お試しください。';
                 messageDiv.className = 'text-xs mt-3 text-center md:text-left font-medium text-red-400';
                 messageDiv.classList.remove('hidden');
                 console.error('Error:', error);
               })
               .finally(() => {
+                // ボタンを完全に元の状態に戻す
                 submitBtn.disabled = false;
                 submitBtn.style.opacity = '1';
                 submitBtn.innerHTML = originalBtnText;
