@@ -91,3 +91,62 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const newsletterForm = document.getElementById('newsletterForm');
+  
+  // フォームが存在するページのみ処理を実行
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const emailInput = document.getElementById('emailInput');
+      const submitBtn = document.getElementById('submitBtn');
+      const messageDiv = document.getElementById('responseMessage');
+      
+      // 連打・二重送信防止モードON
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.7';
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<span>送信中...</span>';
+      
+      const gasUrl = 'https://script.google.com/macros/s/AKfycbyQXHDxSPg_1-5SlI7UK3IvffOG-ECmo5JCjReZZ_NgXzm3C89DbF0nAFClSXeIBSLz/exec';
+      
+      fetch(gasUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          'email': emailInput.value
+        })
+      })
+      .then(() => {
+        // 成功時
+        messageDiv.innerText = '正常に登録されました。ありがとうございます！';
+        messageDiv.className = 'text-xs mt-2 text-center md:text-left font-medium text-green-400 absolute -bottom-6 left-2';
+        messageDiv.classList.remove('hidden');
+        emailInput.value = ''; // 入力欄をクリア
+      })
+      .catch(error => {
+        // エラー時
+        messageDiv.innerText = 'エラーが発生しました。もう一度お試しください。';
+        messageDiv.className = 'text-xs mt-2 text-center md:text-left font-medium text-red-400 absolute -bottom-6 left-2';
+        messageDiv.classList.remove('hidden');
+        console.error('Error:', error);
+      })
+      .finally(() => {
+        // ボタンを元に戻す
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+        submitBtn.innerHTML = originalBtnText;
+
+        // 5秒後にメッセージを消去する（UI向上のための任意追加）
+        setTimeout(() => {
+          messageDiv.classList.add('hidden');
+        }, 5000);
+      });
+    });
+  }
+});

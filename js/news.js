@@ -51,15 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1カラムレイアウトのHTMLを生成
     pageData.forEach(item => {
       const formattedDate = formatDateString(item.timestamp);
-      
-      // ▼ ここから変更：リンク先がhttpから始まるか（外部リンク）どうかで処理を分ける
-      const isExternal = item.target.startsWith('http');
-      const targetAttr = isExternal ? 'target="_blank" rel="noopener noreferrer"' : '';
-      const iconClass = isExternal ? 'ri-arrow-right-up-line' : 'ri-arrow-right-line';
-      // ▲ ここまで変更
 
       const articleHTML = `
-        <a href="${item.target}" ${targetAttr} class="group bg-white p-5 md:p-6 flex flex-col md:flex-row gap-6 hover:bg-slate-50 transition-colors relative border-b border-slate-200">
+        <a href="${item.target}" target="_blank" rel="noopener noreferrer" class="group bg-white p-5 md:p-6 flex flex-col md:flex-row gap-6 hover:bg-slate-50 transition-colors relative border-b border-slate-200">
           <div class="absolute top-0 left-0 w-1 h-full bg-red-600 scale-y-0 origin-top group-hover:scale-y-100 transition-transform duration-300 z-10 hidden md:block"></div>
           <div class="absolute top-0 left-0 w-full h-1 bg-red-600 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300 z-10 md:hidden"></div>
           
@@ -74,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
           
           <div class="mt-2 md:mt-0 flex items-center justify-end md:justify-center shrink-0">
             <div class="w-10 h-10 border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-slate-900 group-hover:bg-slate-900 group-hover:text-white transition-all">
-              <i class="${iconClass} text-lg"></i>
+              <i class="ri-arrow-right-up-line text-lg"></i>
             </div>
           </div>
         </a>
