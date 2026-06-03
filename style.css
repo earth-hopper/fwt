@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.font-display {
+  font-family: 'Cardo', sans-serif;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* ティッカー全体のコンテナ */
+.fwt-ticker {
+  width: 100%;
+  overflow: hidden; /* はみ出た分を隠す */
+  background: #e20000;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* テキストを横に並べて動かすトラック */
+.fwt-ticker-track {
+  display: flex;         /* 中身を横並びにする */
+  flex-wrap: nowrap;     /* 絶対に折り返さない */
+  width: max-content;    /* 中身の合計幅に自動で広がる（超重要） */
+  will-change: transform;
+  animation: fwt-marquee 30s linear infinite;
+}
+
+/* テキスト1塊のスタイル */
+.fwt-ticker-item {
+  white-space: nowrap;   /* テキスト内の改行を禁止 */
+  display: inline-block;
+  color: #ffffff;
+  /* 文字がくっつかないよう、右側に余白を確保（// &nbsp; の代わり） */
+  padding-right: 2rem; 
+}
+
+/* アニメーション：複製して2つ並んでいるので -50% でループ */
+@keyframes fwt-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ホバー時に停止 */
+.fwt-ticker:hover .fwt-ticker-track {
+  animation-play-state: paused;
+}
