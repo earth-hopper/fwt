@@ -204,53 +204,63 @@
       </div>
 
       <script>
-      document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const emailInput = document.getElementById('emailInput');
+          const submitBtn = document.getElementById('submitBtn');
+          const messageDiv = document.getElementById('responseMessage');
+          
+          // 連打・二重送信防止モードON
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = '0.7';
+          const originalBtnText = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<span>送信中...</span>';
+          
+          // メッセージのリセット
+          messageDiv.classList.add('hidden');
         
-        const emailInput = document.getElementById('emailInput');
-        const submitBtn = document.getElementById('submitBtn');
-        const messageDiv = document.getElementById('responseMessage');
+          // ★重要：取得済みの「サイトキー」に書き換えてください（お問合せフォームと同じものでOK）
+          const siteKey = '6LdVFQotAAAAAPFGxEJgT4sa4lbx-pDvYcJyjSf4'; 
+          const gasUrl = 'https://script.google.com/macros/s/AKfycbyDLV2aFFUqeuN8Cmi21Tldot_08uLIIckcpJAPOkrPxDPVutLMAOnaZkN2lfXHzP4d/exec';
+          
+          // reCAPTCHAを実行してトークンを取得してからGASへ送る
+          grecaptcha.ready(function() {
+            grecaptcha.execute(siteKey, { action: 'submit_newsletter' }).then(function(token) {
+              
+              fetch(gasUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                  'email': emailInput.value,
+                  'recaptchaToken': token // トークンを一緒におくる
+                })
+              })
+              .then(() => {
+                messageDiv.innerText = '正常に登録されました。ありがとうございます！';
+                messageDiv.className = 'text-xs mt-3 text-center md:text-left font-medium text-green-400';
+                messageDiv.classList.remove('hidden');
+                emailInput.value = ''; 
+              })
+              .catch(error => {
+                messageDiv.innerText = 'エラーが発生しました。もう一度お試しください。';
+                messageDiv.className = 'text-xs mt-3 text-center md:text-left font-medium text-red-400';
+                messageDiv.classList.remove('hidden');
+                console.error('Error:', error);
+              })
+              .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.innerHTML = originalBtnText;
+              });
         
-        // 連打・二重送信防止モードON
-        submitBtn.disabled = true;
-        submitBtn.style.opacity = '0.7';
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<span>送信中...</span>';
-        
-        const gasUrl = 'https://script.google.com/macros/s/AKfycbyQXHDxSPg_1-5SlI7UK3IvffOG-ECmo5JCjReZZ_NgXzm3C89DbF0nAFClSXeIBSLz/exec';
-        
-        fetch(gasUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({
-            'email': emailInput.value
-          })
-        })
-        .then(() => {
-          // 成功時
-          messageDiv.innerText = '正常に登録されました。ありがとうございます！';
-          messageDiv.className = 'text-xs mt-3 text-center md:text-left font-medium text-green-400';
-          messageDiv.classList.remove('hidden');
-          emailInput.value = ''; // 入力欄をクリア
-        })
-        .catch(error => {
-          // エラー時
-          messageDiv.innerText = 'エラーが発生しました。もう一度お試しください。';
-          messageDiv.className = 'text-xs mt-3 text-center md:text-left font-medium text-red-400';
-          messageDiv.classList.remove('hidden');
-          console.error('Error:', error);
-        })
-        .finally(() => {
-          // ボタンを元に戻す
-          submitBtn.disabled = false;
-          submitBtn.style.opacity = '1';
-          submitBtn.innerHTML = originalBtnText;
+            });
+          });
         });
-      });
-      </script>
+        </script>
 
       <div class="mt-16 text-left max-w-5xl mx-auto opacity-80">
         <h4 class="text-center font-bold text-slate-400 mb-8 tracking-widest uppercase text-sm">エントリー受付開始後の流れ</h4>
