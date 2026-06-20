@@ -329,7 +329,7 @@
     "next": 0,
     "point": 2100,
     "home": "Whistler",
-    "instagram": "@None",
+    "instagram": "",
     "profile": "/img/riders/mutsumi_ido_profile.webp",
     "riding": "/img/riders/mutsumi_ido_riding.webp",
     "results": "I have been snowboarding for 21 years. I have competed in freeride competitions since 2018.",
@@ -412,12 +412,12 @@
     "best": 1300,
     "next": 660,
     "point": 1960,
-    "home": "",
-    "instagram": "",
-    "profile": "",
-    "riding": "",
-    "results": "",
-    "comment": ""
+    "home": "Togakushi hakuba iizuna myoukou",
+    "instagram": "@ohta.kei",
+    "profile": "/img/riders/kei_ohta_profile.webp",
+    "riding": "/img/riders/kei_ohta_riding.webp",
+    "results": "FWTjapan series5年　2023ARAI1st MAIKO1st",
+    "comment": "フリーライドを通し山の中での活動、滑りが今までよりとても自由で、常に挑戦し続けられるものとなりました。より自由なLINEをフィールドで描けるよう挑戦していきたい。"
   },
   {
     "id": "julian_unterbrunner",
@@ -685,12 +685,12 @@
     "best": 730,
     "next": 680,
     "point": 1410,
-    "home": "",
-    "instagram": "",
-    "profile": "",
-    "riding": "",
-    "results": "",
-    "comment": ""
+    "home": "Hakuba",
+    "instagram": "@finnbowes",
+    "profile": "/img/riders/finn_bowes_profile.webp",
+    "riding": "/img/riders/finn_bowes_riding.webp",
+    "results": "10 years on the Australian National Ski Racing Team, followed by 3 years of freeride skiing. 2025/25 China 3* Freeride Champion",
+    "comment": "Freeride is a way for me to continue competing and skiing at the highest level after I retired from ski racing. It is challenging and feels like it is what skiing is all about."
   },
   {
     "id": "rina_kawanami",
@@ -2533,12 +2533,12 @@
     "best": 260,
     "next": 190,
     "point": 450,
-    "home": "",
-    "instagram": "",
-    "profile": "",
-    "riding": "",
-    "results": "",
-    "comment": ""
+    "home": "Rusutsu",
+    "instagram": "@yukino.snowbird",
+    "profile": "/img/riders/yukino_torimoto_profile.webp",
+    "riding": "/img/riders/yukino_torimoto_riding.webp",
+    "results": "スノーボード歴9年 2026FWT U14 ARAI 1st .kiroro powder freeride2025.2026 1st . niseko moiwa bankedslalom 1st...等",
+    "comment": "スノーボードを始めてから、ずっと北海道の山々を楽しく滑りまくっていました。パウダーを滑りマッシュを飛ぶのが大好きです。\nひたすら大好きなフリーライドをやってきたなかで、FWTという大会の存在を知りました。\n自分のこれまでの経験がどれくらい通用するのか知りたくて挑戦を決めました。"
   },
   {
     "id": "takuto_ogawa",
@@ -3436,11 +3436,11 @@
     "best": 260,
     "next": 0,
     "point": 260,
-    "home": "",
-    "instagram": "",
-    "profile": "",
-    "riding": "",
-    "results": "",
+    "home": "Sapporo / Rusutsu /Niseko",
+    "instagram": "@nao_makita",
+    "profile": "/img/riders/nao_makita_profile.webp",
+    "riding": "/img/riders/nao_makita_riding.webp",
+    "results": "Japan freeride open \nSki women under 18   2025.2026 first",
     "comment": ""
   },
   {
@@ -3457,12 +3457,12 @@
     "best": 260,
     "next": 0,
     "point": 260,
-    "home": "",
+    "home": "Beijing Yunju",
     "instagram": "",
-    "profile": "",
+    "profile": "/img/riders/sixian_yu_profile.webp",
     "riding": "",
-    "results": "",
-    "comment": ""
+    "results": "Y26 U11 SKi woman 1st Prize",
+    "comment": "glorianewzyy"
   },
   {
     "id": "gabriella_g_ansell",
@@ -3814,12 +3814,12 @@
     "best": 120,
     "next": 105,
     "point": 225,
-    "home": "",
-    "instagram": "",
-    "profile": "",
-    "riding": "",
-    "results": "",
-    "comment": ""
+    "home": "Togakushi",
+    "instagram": "@pppeacenuts",
+    "profile": "/img/riders/hinata_atsuumi_profile.webp",
+    "riding": "/img/riders/hinata_atsuumi_riding.webp",
+    "results": "Snowboard Experience: 5 years\nCompetition Years: 3 years\nResult:\n'26 Japan Freeride Open Snowboard Men U-12  1st place\n'26 FWT Arai  / SB Men U-14 4th place\nTENJIN BANKED SLALOM / Primary School Men 4th place",
+    "comment": "９歳の時に白馬の大きな山でバックカントリーをして以来、雪山冒険に魅了されています。戸隠地域を中心に北信の山々で楽しいラインを探し滑っています。"
   },
   {
     "id": "akito_mikami",
@@ -5158,12 +5158,12 @@
     "best": 75,
     "next": 0,
     "point": 75,
-    "home": "",
-    "instagram": "",
-    "profile": "",
-    "riding": "",
-    "results": "",
-    "comment": ""
+    "home": "Hakuba Gunma",
+    "instagram": "@junya5327",
+    "profile": "/img/riders/kanato_takeuchi_profile.webp",
+    "riding": "/img/riders/kanato_takeuchi_riding.webp",
+    "results": "スノーボード歴は10年、FWT2025.2026年出場",
+    "comment": "何よりフリーライドが好きです\nそのための、オフトレはジャンプとジブを、精一杯頑張ってます\n全てはフリーライドに活かせるためにオフも頑張ってます‼︎"
   },
   {
     "id": "kaito_rokkaku",
